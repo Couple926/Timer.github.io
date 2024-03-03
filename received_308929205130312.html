@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laikrodžio programa</title>
+</head>
+<body>
+  <div id="timer">00:00:00</div>
+  <div>
+    <label for="hoursInput">Valandos:</label>
+    <input type="number" id="hoursInput" placeholder="Valandos">
+    <label for="minutesInput">Minutės:</label>
+    <input type="number" id="minutesInput" placeholder="Minutės">
+  </div>
+  <button id="addTimeBtn">Pridėti laiką</button>
+  <button id="subtractTimeBtn">Atimti laiką</button>
+
+  <script>
+    const timerDisplay = document.getElementById('timer');
+    const addTimeBtn = document.getElementById('addTimeBtn');
+    const subtractTimeBtn = document.getElementById('subtractTimeBtn');
+    const hoursInput = document.getElementById('hoursInput');
+    const minutesInput = document.getElementById('minutesInput');
+    let seconds = 0;
+
+    function updateTimer() {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+      timerDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    function addTime() {
+      const hours = parseInt(hoursInput.value) || 0;
+      const minutes = parseInt(minutesInput.value) || 0;
+      seconds += hours * 3600 + minutes * 60;
+      updateTimer();
+      resetInputs();
+    }
+
+    function subtractTime() {
+      const hours = parseInt(hoursInput.value) || 0;
+      const minutes = parseInt(minutesInput.value) || 0;
+      seconds -= hours * 3600 + minutes * 60;
+      if (seconds < 0) {
+        seconds = 0;
+      }
+      updateTimer();
+      resetInputs();
+    }
+
+    function resetInputs() {
+      hoursInput.value = '';
+      minutesInput.value = '';
+    }
+
+    addTimeBtn.addEventListener('click', addTime);
+    subtractTimeBtn.addEventListener('click', subtractTime);
+
+    setInterval(() => {
+      seconds++;
+      updateTimer();
+    }, 1000);
+  </script>
+
+  <!-- Čia pridedame linką, kuris leis žmonėms įterpti šį laikmatį į savo svetainę -->
+  <textarea rows="6" cols="50">
+    <iframe src="https://www.example.com/laikrodzio_programa.html" width="400" height="200" frameborder="0" scrolling="no"></iframe>
+  </textarea>
+</body>
+</html>
